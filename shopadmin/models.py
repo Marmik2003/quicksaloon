@@ -47,7 +47,7 @@ class ShopSubscription(models.Model):
             (6, 'Full Access')
         )
     )
-    
+
     def __str__(self):
         return self.shop + ' - ' + self.subscription_type
 
