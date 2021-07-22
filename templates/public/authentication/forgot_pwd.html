@@ -1,0 +1,62 @@
+{% extends 'partials/login_reg/base.html' %}
+
+{% block form %}
+    <h4 class="text-center mb-4">Sign in</h4>
+    <div class="alert alert-info" style="display: none"></div>
+    <div class="alert alert-danger" style="display: none"></div>
+    {% include 'partials/login_reg/messages.html' %}
+    <form method="post" onsubmit="return process(event)">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="mb-1"><strong>Phone No.</strong></label>
+            <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone No.">
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-block">Send OTP</button>
+        </div>
+    </form>
+    <div class="new-account mt-3">
+        <p>Don't have an account? <a class="text-primary" href="{% url 'public:user_reg' %}">Sign up</a></p>
+    </div>
+{% endblock %}
+
+{% block extra-js %}
+    <script>
+        var input = document.querySelector("#phone");
+        const phoneInput =  window.intlTelInput(input, {
+            // any initialisation options go here
+            onlyCountries: ['in'],
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+        const info = document.querySelector(".alert-info");
+        const error = document.querySelector(".alert-danger");
+
+        function process(event) {
+
+            const phoneNumber = phoneInput.getNumber();
+            const passwd = document.querySelector('#password');
+            const cpasswd = document.querySelector('#cpassword');
+
+            info.style.display = "none";
+            error.style.display = "none";
+
+            if (phoneInput.isValidNumber()) {
+                if (passwd.value === cpasswd.value){
+                    return true;
+                } else {
+                    info.style.display = "none";
+                    error.style.display = "";
+                    error.innerHTML = `Password and Confirm Password must match!`;
+                    return false;
+                }
+            } else {
+                info.style.display = "none";
+                error.style.display = "";
+                error.innerHTML = `Invalid phone number.`;
+                return false;
+            }
+        }
+    </script>
+
+{% endblock %}
+

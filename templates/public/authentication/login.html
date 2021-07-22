@@ -1,0 +1,75 @@
+{% extends 'partials/login_reg/base.html' %}
+
+{% block form %}
+    <h4 class="text-center mb-4">Sign in</h4>
+    <div class="alert alert-info" style="display: none"></div>
+    <div class="alert alert-danger" style="display: none"></div>
+    {% include 'partials/login_reg/messages.html' %}
+    <form method="post" onsubmit="return process(event)">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="mb-1"><strong>Phone No.</strong></label>
+            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Phone No." required>
+        </div>
+        <div class="form-group">
+            <label class="mb-1"><strong>Password</strong></label>
+            <input type="password" name="password" class="form-control">
+        </div>
+        <div class="form-row d-flex justify-content-between mt-4 mb-2">
+            <div class="form-group">
+                <div class="custom-control custom-checkbox ml-1">
+                    <input type="checkbox" name="remember_me" class="custom-control-input" id="basic_checkbox_1">
+                    <label class="custom-control-label" for="basic_checkbox_1">Remember me</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <a href="{% url 'public:forgot_pwd' %}">Forgot Password?</a>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-block">Sign Me In</button>
+        </div>
+    </form>
+    <div class="new-account mt-3">
+        <p>Don't have an account? <a class="text-primary" href="{% url 'public:user_reg' %}">Sign up</a></p>
+    </div>
+{% endblock %}
+
+{% block extra-js %}
+    <script>
+        var input = document.querySelector("#phone");
+        const phoneInput =  window.intlTelInput(input, {
+            // any initialisation options go here
+            onlyCountries: ['in'],
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+        const info = document.querySelector(".alert-info");
+        const error = document.querySelector(".alert-danger");
+
+        function process(event) {
+
+            const phoneNumber = phoneInput.getNumber();
+            const passwd = document.querySelector('#password');
+            const cpasswd = document.querySelector('#cpassword');
+
+            info.style.display = "none";
+            error.style.display = "none";
+
+            if (phoneInput.isValidNumber()) {
+                if (passwd.value === cpasswd.value){
+                    return true;
+                } else {
+                    info.style.display = "none";
+                    error.style.display = "";
+                    error.innerHTML = `Password and Confirm Password must match!`;
+                    return false;
+                }
+            } else {
+                info.style.display = "none";
+                error.style.display = "";
+                error.innerHTML = `Invalid phone number.`;
+                return false;
+            }
+        }
+    </script>
+{% endblock %}
