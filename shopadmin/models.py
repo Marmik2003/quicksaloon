@@ -9,18 +9,19 @@ class MainShop(models.Model):
     subscription = models.CharField(
         max_length=25,
         choices=(
-            (1, 'Free'),
-            (2, 'Basic'),
-            (3, 'Gold'),
-            (4, 'Platinum'),
-            (5, 'Diamond'),
-            (6, 'Full Access')
+            ('Free', 'Free'),
+            ('Basic', 'Basic'),
+            ('Gold', 'Gold'),
+            ('Platinum', 'Platinum'),
+            ('Diamond', 'Diamond'),
+            ('Full Access', 'Full Access')
         )
     )
 
     # shop_admin = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     main_branch = models.OneToOneField('shopadmin.ShopBranch', on_delete=models.SET_NULL, null=True,
-                                       related_name='shop_branch')
+                                       related_name='shop_branch', blank=True)
+    is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
     @property
@@ -31,6 +32,12 @@ class MainShop(models.Model):
     def _history_user(self, value):
         self.changed_by = value
 
+    def __str__(self):
+        return self.shop_name
+
+    class Meta:
+        verbose_name_plural = "MainShops"
+
 
 class ShopSubscription(models.Model):
     shop = models.ForeignKey(MainShop, on_delete=models.SET_NULL, null=True)
@@ -39,12 +46,12 @@ class ShopSubscription(models.Model):
     subscription_type = models.CharField(
         max_length=25,
         choices=(
-            (1, 'Free'),
-            (2, 'Basic'),
-            (3, 'Gold'),
-            (4, 'Platinum'),
-            (5, 'Diamond'),
-            (6, 'Full Access')
+            ('Free', 'Free'),
+            ('Basic', 'Basic'),
+            ('Gold', 'Gold'),
+            ('Platinum', 'Platinum'),
+            ('Diamond', 'Diamond'),
+            ('Full Access', 'Full Access')
         )
     )
 
@@ -54,10 +61,10 @@ class ShopSubscription(models.Model):
 
 class ShopBranch(models.Model):
     branch_name = models.CharField(max_length=384)
-    opening_time = models.TimeField()
-    closing_time = models.TimeField()
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    opening_time = models.TimeField(null=True, blank=True)
+    closing_time = models.TimeField(null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
     address = models.TextField()
     mainshop = models.ForeignKey(MainShop, on_delete=models.CASCADE)
     history = HistoricalRecords()
@@ -69,6 +76,12 @@ class ShopBranch(models.Model):
     @_history_user.setter
     def _history_user(self, value):
         self.changed_by = value
+
+    def __str__(self):
+        return self.branch_name + ' - ' + self.mainshop.shop_name
+
+    class Meta:
+        verbose_name_plural = "ShopBranches"
 
 
 class ShopImage(models.Model):
@@ -84,6 +97,9 @@ class ShopImage(models.Model):
     @_history_user.setter
     def _history_user(self, value):
         self.changed_by = value
+
+    def __str__(self):
+        return "Image of " + self.shop.branch_name + ' - ' + self.shop.mainshop.shop_name
 
 
 class ShopHoliday(models.Model):

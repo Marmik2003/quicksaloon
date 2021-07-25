@@ -78,6 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class ShopAdmin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     shop = models.OneToOneField('shopadmin.MainShop', on_delete=models.CASCADE, primary_key=True)
     history = HistoricalRecords()
 

@@ -5,7 +5,6 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
-
 CREATE_USER_URL = reverse('public_api:create')
 TOKEN_URL = reverse('public_api:token')
 ME_URL = reverse('public_api:me')
@@ -37,7 +36,7 @@ class PublicUserApiTests(TestCase):
         self.assertNotIn('password', res.data)
 
     def test_user_exists(self):
-        """Test creatinga  user that already exists fails"""
+        """Test creating  user that already exists fails"""
         payload = {
             'email': 'test@gmail.com',
             'password': 'testpass',
@@ -67,7 +66,7 @@ class PublicUserApiTests(TestCase):
         self.assertFalse(user_exists)
 
     def test_create_token_for_user(self):
-        """Test that a token is created fo rthe user"""
+        """Test that a token is created fo the user"""
         payload = {
             'phone': '+001010101010',
             'password': 'testpass',
