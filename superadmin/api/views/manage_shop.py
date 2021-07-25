@@ -1,7 +1,7 @@
-from rest_framework import permissions, authentication, generics
+from rest_framework import permissions, authentication, generics, status
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 
 from shopadmin.models import MainShop
 from superadmin.api.serializers.shop_serializers import ShopSerializer, CreateShopSerializer, ManageShopSerializer
@@ -26,7 +26,7 @@ class CreateShopView(generics.CreateAPIView):
 
 
 class ManageShopView(generics.RetrieveUpdateAPIView):
-    """Manage the authenticated user"""
+    """Manage the shop"""
     serializer_class = ManageShopSerializer
     queryset = MainShop.objects.all()
     authentication_classes = (authentication.TokenAuthentication,)
@@ -37,3 +37,20 @@ class ManageShopView(generics.RetrieveUpdateAPIView):
         if 'pk' in self.kwargs:
             self.lookup_field = 'pk'
         return super(ManageShopView, self).get_object()
+
+
+class DeleteShopView(generics.DestroyAPIView):
+    """Sets the shop to in-active mode"""
+    serializer_class = CreateShopSerializer
+    authentication_classes = (authentication.TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+    queryset = MainShop.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not instance.is_active:
+            return Response("Shop is not found or already deleted", status=status.HTTP_400_BAD_REQUEST)
+        else:
+            instance.is_active = False
+            instance.save()
+            return Response("Shop deleted successfully!", status=status.HTTP_204_NO_CONTENT)
