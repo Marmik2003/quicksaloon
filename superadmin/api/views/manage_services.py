@@ -25,7 +25,7 @@ class ManageServiceView(generics.RetrieveUpdateAPIView):
     serializer_class = CreateServiceSerializer
     queryset = Service.objects.all()
     authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get_object(self):
         """Retrieve and return shop"""
@@ -39,7 +39,7 @@ class DeleteServiceView(generics.DestroyAPIView):
     serializer_class = CreateServiceSerializer
     queryset = Service.objects.all()
     authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get_object(self):
         """Retrieve and return shop"""
@@ -52,11 +52,11 @@ class CreateServiceImageView(generics.CreateAPIView):
     serializer_class = CreateServiceImageSerializer
     queryset = ServiceImage.objects.all()
     authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
 
 class DeleteServiceImageView(generics.DestroyAPIView):
     serializer_class = ServiceImageSerializer
     queryset = ServiceImage.objects.all()
     authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)

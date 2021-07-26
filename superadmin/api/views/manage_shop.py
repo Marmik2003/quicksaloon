@@ -30,7 +30,7 @@ class ManageShopView(generics.RetrieveUpdateAPIView):
     serializer_class = ManageShopSerializer
     queryset = MainShop.objects.all()
     authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get_object(self):
         """Retrieve and return shop"""

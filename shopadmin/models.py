@@ -67,6 +67,7 @@ class ShopBranch(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     address = models.TextField()
     mainshop = models.ForeignKey(MainShop, on_delete=models.CASCADE)
+    main_image = models.ImageField(upload_to='shops/', null=True, blank=True)
     history = HistoricalRecords()
 
     @property

@@ -13,6 +13,7 @@ urlpatterns = [
     # API URLS
     path('api/', include('public.api.urls')),
     path('superadmin/api/', include('superadmin.api.urls')),
+    path('shopadmin/api/', include('shopadmin.api.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(
     settings.STATIC_URL,
