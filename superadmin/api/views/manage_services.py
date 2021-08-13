@@ -17,7 +17,7 @@ class ListServicesView(generics.ListAPIView):
     queryset = Service.objects.all()
     serializer_class = ListServiceSerializer
     authentication_classes = (authentication.TokenAuthentication,)
-    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class ManageServiceView(generics.RetrieveUpdateAPIView):
@@ -42,7 +42,7 @@ class DeleteServiceView(generics.DestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get_object(self):
-        """Retrieve and return shop"""
+        """Retrieve and return services"""
         if 'pk' in self.kwargs:
             self.lookup_field = 'pk'
         return super(DeleteServiceView, self).get_object()

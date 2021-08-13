@@ -7,5 +7,4 @@ class ShopBranchSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShopBranch
         fields = ['branch_name', 'opening_time', 'closing_time', 'address',
-                  'latitude', 'longitude', 'main_image']
-
+                  'latitude', 'longitude', 'main_image', 'is_active']

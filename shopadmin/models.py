@@ -17,8 +17,6 @@ class MainShop(models.Model):
             ('Full Access', 'Full Access')
         )
     )
-
-    # shop_admin = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     main_branch = models.OneToOneField('shopadmin.ShopBranch', on_delete=models.SET_NULL, null=True,
                                        related_name='shop_branch', blank=True)
     is_active = models.BooleanField(default=True)
@@ -68,6 +66,7 @@ class ShopBranch(models.Model):
     address = models.TextField()
     mainshop = models.ForeignKey(MainShop, on_delete=models.CASCADE)
     main_image = models.ImageField(upload_to='shops/', null=True, blank=True)
+    is_active = models.BooleanField(default=True)
     history = HistoricalRecords()
 
     @property
@@ -128,7 +127,7 @@ class SubService(models.Model):
     shops = models.ManyToManyField(ShopBranch)
     price = models.PositiveIntegerField()
     approx_time = models.PositiveIntegerField()
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, blank=True)
     history = HistoricalRecords()
 
     @property
@@ -149,7 +148,23 @@ class Offering(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField()
     main_shop = models.ForeignKey(MainShop, on_delete=models.CASCADE, null=True)
-    shops = models.ManyToManyField(ShopBranch)
+    shops = models.ManyToManyField(ShopBranch, blank=True)
     from_date = models.DateField()
     to_date = models.DateField()
+    time_added = models.DateTimeField(auto_now_add=True)
     for_allshop = models.BooleanField(default=False)
+    subservices = models.ManyToManyField(SubService, blank=True)
+    offer_code = models.CharField(max_length=12, null=True, blank=True)
+    special_offer = models.BooleanField(default=False, blank=True)
+    history = HistoricalRecords()
+
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
+
+    def __str__(self):
+        return self.name

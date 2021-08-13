@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
             email=email,
             first_name=first_name,
             phone=phone,
-            **extra_fields
+            **extra_fields,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -47,7 +47,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=25)
-    last_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length=25, blank=True, null=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=16, unique=True)
     is_barber = models.BooleanField(default=False)
@@ -92,7 +92,7 @@ class ShopAdmin(models.Model):
 
 
 class Barber(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     shop = models.ForeignKey('shopadmin.ShopBranch', on_delete=models.SET_NULL, null=True)
     is_offerprovider = models.BooleanField(default=False)
     history = HistoricalRecords()
