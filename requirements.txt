@@ -12,6 +12,7 @@ djangify==1.0.0
 Django==3.2.3
 django-allauth==0.44.0
 django-bootstrap4==3.0.1
+django-cors-headers==3.8.0
 django-crispy-forms==1.11.2
 django-filter==2.4.0
 django-rest-swagger==2.2.0
