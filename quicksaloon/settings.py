@@ -109,14 +109,22 @@ WSGI_APPLICATION = 'quicksaloon.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd12svskge2ta6v',
-        'HOST': 'ec2-3-217-68-126.compute-1.amazonaws.com',
-        'PORT': 5432,
-        'USER': 'wzcpfgnnhidktm',
-        'PASSWORD': '55bdeb48242ba4738355d0d28cd9adc6e5ea526604b648b246bc0600685262b1'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd12svskge2ta6v',
+#         'HOST': 'ec2-3-217-68-126.compute-1.amazonaws.com',
+#         'PORT': 5432,
+#         'USER': 'wzcpfgnnhidktm',
+#         'PASSWORD': '55bdeb48242ba4738355d0d28cd9adc6e5ea526604b648b246bc0600685262b1'
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
