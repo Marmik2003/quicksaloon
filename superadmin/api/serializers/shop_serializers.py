@@ -9,6 +9,7 @@ from shopadmin.models import MainShop, ShopImage, ShopBranch
 class ShopImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShopImage
+        ref_name = "AdminShopImage"
         fields = ['image', 'user']
 
 
@@ -17,6 +18,7 @@ class ShopBranchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShopBranch
+        ref_name = "AdminShopBranch"
         fields = ['pk', 'branch_name', 'images']
 
 

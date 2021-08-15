@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
+        ref_name = "UserInfoSerializer"
         fields = ('first_name', 'last_name', 'avatar')
 
 
@@ -25,6 +26,7 @@ class BarberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Barber
+        ref_name = "CustomBarberSerializer"
         fields = ['barber_name', 'estimated_time', 'pending_orders']
 
     @staticmethod
@@ -51,6 +53,7 @@ class ShopBranchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShopBranch
+        ref_name = "CustomShopBranchSerializer"
         fields = ['pk', 'branch_name', 'images', 'barbers']
 
 
@@ -60,6 +63,7 @@ class ShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MainShop
+        ref_name = "CustomShop"
         fields = ['pk', 'shop_name', 'main_branch', 'branches']
 
 

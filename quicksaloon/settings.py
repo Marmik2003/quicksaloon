@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_swagger',
+    'drf_yasg',
 
     # 'allauth',
     # 'allauth.account',
@@ -54,8 +54,18 @@ INSTALLED_APPS = [
     'barber',
     'customer',
     'public',
-
 ]
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
