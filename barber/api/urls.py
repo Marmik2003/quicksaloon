@@ -3,7 +3,7 @@ from django.urls import path
 from .views.order_views import CreateOrderAPIView, ListCurrentOrdersView, finish_order, reject_order, \
     GetMonthlyOrderReport, GetWeeklyOrderReport
 
-app_name = 'customer_api'
+app_name = 'barber_api'
 
 urlpatterns = [
     path('orders/create/', CreateOrderAPIView.as_view()),
