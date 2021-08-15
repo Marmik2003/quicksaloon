@@ -54,7 +54,7 @@ class ShopSubscription(models.Model):
     )
 
     def __str__(self):
-        return self.shop + ' - ' + self.subscription_type
+        return self.shop.shop_name + ' - ' + self.subscription_type
 
 
 class ShopBranch(models.Model):

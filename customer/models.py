@@ -3,18 +3,24 @@ from django.db import models
 # Create your models here.
 from simple_history.models import HistoricalRecords
 
+from public.models import User, Barber
+
 
 class Order(models.Model):
     customer_name = models.CharField(max_length=255)
     customer_phone = models.CharField(max_length=15)
     shop = models.ForeignKey('shopadmin.ShopBranch', on_delete=models.SET_NULL, null=True)
-    services = models.ManyToManyField('shopadmin.Service')
     subservices = models.ManyToManyField('shopadmin.SubService')
-    customer_id = models.ForeignKey('public.User', on_delete=models.SET_NULL, null=True)
+    customer = models.ForeignKey('public.User', on_delete=models.SET_NULL, null=True)
     amount = models.PositiveIntegerField(default=0)
-    order_status = models.CharField(max_length=40)
+    barber = models.ForeignKey(Barber, on_delete=models.CASCADE)
+    order_status = models.CharField(max_length=40, null=True, blank=True)
     order_finished = models.BooleanField(default=False)
     order_rejected = models.BooleanField(default=False)
+    booking_time = models.DateTimeField(auto_now_add=True)
+    et_finish = models.PositiveIntegerField(default=0)
+    at_finish = models.PositiveIntegerField(default=0)
+    et_order = models.PositiveIntegerField(default=0)
     history = HistoricalRecords()
 
     @property
@@ -27,13 +33,15 @@ class Order(models.Model):
 
 
 class UserRatings(models.Model):
-    user = models.ForeignKey('public.User', on_delete=models.CASCADE)
+    user = models.ForeignKey('public.User', on_delete=models.CASCADE, blank=True)
     shop = models.ForeignKey('shopadmin.ShopBranch', on_delete=models.CASCADE)
+    barber = models.ForeignKey('public.Barber', on_delete=models.CASCADE, null=True)
     rating = models.PositiveSmallIntegerField()
-    review = models.TextField()
+    review = models.TextField(blank=True, null=True)
     history = HistoricalRecords()
 
     class Meta:
+        verbose_name_plural = 'User Ratings'
         unique_together = (('user', 'shop'),)
 
     @property
