@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u%^-rd#ye(^m=1))u9gpuij_lq4ccv_iwvav%6%ho2b#=yocw+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['quicksaloon.herokuapp.com', 'localhost', '127.0.0.1', 'quicksaloon.com']
 
@@ -109,8 +109,12 @@ WSGI_APPLICATION = 'quicksaloon.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dfari5ibq8klec',
+        'HOST': 'ec2-3-217-68-126.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'gvndokoucgaahd',
+        'PASSWORD': '63f02348b554ef76ee51559dd6681d743a683a594ce4c61cf2d6d94c3e520525'
     }
 }
 
