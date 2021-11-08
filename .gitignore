@@ -46,3 +46,4 @@ env.bak/
 venv.bak/
 
 media/
+static_cdn/
