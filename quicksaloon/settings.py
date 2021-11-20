@@ -10,11 +10,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import environ
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# define environment
+env = environ.Env()
+environ.Env.read_env()
+PG_DATABASE_HOST = env('PG_DATABASE_HOST')
+PG_DATABASE_NAME = env('PG_DATABASE_NAME')
+PG_DATABASE_USER = env('PG_DATABASE_USER')
+PG_DATABASE_PASSWORD = env('PG_DATABASE_PASSWORD')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -126,11 +135,11 @@ WSGI_APPLICATION = 'quicksaloon.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'quicksaloon',
-        'HOST': 'thedataboy.postgres.database.azure.com',
+        'NAME': PG_DATABASE_NAME,
+        'HOST': PG_DATABASE_HOST,
         'PORT': 5432,
-        'USER': 'thedataboy@thedataboy',
-        'PASSWORD': 'Marmik2003',
+        'USER': PG_DATABASE_USER,
+        'PASSWORD': PG_DATABASE_PASSWORD,
     }
 }
 
