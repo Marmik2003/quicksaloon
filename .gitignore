@@ -21,6 +21,8 @@ media
 .idea/**/libraries
 *.iws /out/
 
+.vscode/
+
 pip-log.txt
 pip-delete-this-directory.txt
 
