@@ -23,11 +23,11 @@ class ListServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         ref_name = "AdminServiceList"
-        fields = ['pk', 'name', 'description', 'images']
+        fields = ['pk', 'name', 'description', 'images', 'is_active']
 
 
 class CreateServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         ref_name = "AdminService"
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'is_active']

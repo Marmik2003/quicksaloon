@@ -112,6 +112,7 @@ class ShopHoliday(models.Model):
 class Service(models.Model):
     name = models.CharField(max_length=127)
     description = models.TextField()
+    is_active = models.BooleanField(default=True)
 
 
 class ServiceImage(models.Model):
