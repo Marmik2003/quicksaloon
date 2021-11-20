@@ -32,7 +32,7 @@ PG_DATABASE_PASSWORD = env('PG_DATABASE_PASSWORD')
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['api.quicksaloon.thedataboy.com', 'quicksaloon.herokuapp.com', 'localhost', '127.0.0.1', 'quicksaloon.com']
 
