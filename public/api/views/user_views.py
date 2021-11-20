@@ -1,4 +1,5 @@
 from rest_framework import generics, authentication, permissions, status
+from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.generics import get_object_or_404
@@ -17,7 +18,24 @@ class CreateUserView(generics.CreateAPIView):
 class CreateTokenView(ObtainAuthToken):
     """Create a new auth token for user"""
     serializer_class = AuthTokenSerializer
-    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        user_object = token.user
+        return Response({
+            'token': token.key,
+            'user_id': user_object.pk,
+            'phone': user_object.phone,
+            'first_name': user_object.first_name,
+            'last_name': user_object.last_name,
+            'is_barber': user_object.is_barber,
+            'is_shopadmin': user_object.is_shopadmin,
+            'is_superuser': user_object.is_superuser,
+        })
 
 
 class ManageUserView(generics.RetrieveUpdateAPIView):

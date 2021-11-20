@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u%^-rd#ye(^m=1))u9gpuij_lq4ccv_iwvav%6%ho2b#=yocw+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['quicksaloon.herokuapp.com', 'localhost', '127.0.0.1', 'quicksaloon.com']
+ALLOWED_HOSTS = ['quicksaloon.herokuapp.com', 'localhost', '127.0.0.1', 'quicksaloon.com', 'quicksaloon.azurewebsites.net']
 
 # Application definition
 
@@ -57,6 +57,12 @@ INSTALLED_APPS = [
     'public',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 SWAGGER_SETTINGS = {
    'SECURITY_DEFINITIONS': {
       'Bearer': {
@@ -70,6 +76,7 @@ SWAGGER_SETTINGS = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -109,23 +116,23 @@ WSGI_APPLICATION = 'quicksaloon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd12svskge2ta6v',
-#         'HOST': 'ec2-3-217-68-126.compute-1.amazonaws.com',
-#         'PORT': 5432,
-#         'USER': 'wzcpfgnnhidktm',
-#         'PASSWORD': '55bdeb48242ba4738355d0d28cd9adc6e5ea526604b648b246bc0600685262b1'
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'quicksaloon',
+        'HOST': 'thedataboy.postgres.database.azure.com',
+        'PORT': 5432,
+        'USER': 'thedataboy@thedataboy',
+        'PASSWORD': 'Marmik2003',
+    }
+}
 
 
 # Password validation
@@ -159,10 +166,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
-STATIC_ROOT = BASE_DIR / 'static_cdn'
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static'
+# ]
+# STATIC_ROOT = BASE_DIR / 'static_cdn'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
@@ -175,4 +185,9 @@ AUTH_USER_MODEL = 'public.User'
 
 LOGIN_URL = r'/'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://quicksaloon.com",
+    "https://quicksaloon.thedataboy.com",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]

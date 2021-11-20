@@ -29,7 +29,7 @@ class ShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MainShop
-        fields = ['pk', 'shop_name', 'subscription', 'main_branch', 'branches', 'shopadmin']
+        fields = ['pk', 'shop_name', 'subscription', 'main_branch', 'branches', 'shopadmin', 'is_active']
 
 
 class CreateMainBranchSerializer(serializers.ModelSerializer):
